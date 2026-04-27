@@ -1,0 +1,36 @@
+import os
+import asyncio
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+
+# 1. Загружаем секретный токен из файла .env
+load_dotenv()
+TOKEN = os.getenv("BOT_TOKEN")
+
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+# Приветственное сообщение
+@dp.message(Command("start"))
+async def start_handler(message: types.Message):
+    await message.answer(
+        f"Здравствуйте, {message.from_user.full_name}!\n\n"
+        "Я бот для предсказания оттока клиентов. 📊\n"
+        "Скоро я научусь принимать данные и делать прогнозы с помощью Logistic Regression."
+    )
+
+# Заглушка для будущей логики предсказания
+@dp.message()
+async def handle_data(message: types.Message):
+    await message.answer("Я получил ваши данные. Модель анализирует вероятность оттока... ⏳")
+
+async def main():
+    print("Бот запущен и готов к работе!")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Бот остановлен")
