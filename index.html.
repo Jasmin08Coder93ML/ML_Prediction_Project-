@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой ML Проект</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { color: #2c3e50; }
+        .status { background: #e8f4fd; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Прогноз оттока клиентов</h1>
+    <p>Добро пожаловать! Это презентация моего проекта по машинному обучению.</p>
+    <div class="status">
+        <p><strong>Цель:</strong> Предсказание ухода клиентов с помощью логистической регрессии.</p>
+        <p><strong>Технологии:</strong> Python, Scikit-learn, Pandas.</p>
+    </div>
+    <p>Скоро здесь появится ссылка на интерактивное приложение!</p>
+</body>
+</html>
