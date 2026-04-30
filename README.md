@@ -4,7 +4,7 @@
 
   <br>
   <img src="assets/1000147028.jpg" width="200" style="border-radius: 50%; border: 3px solid #007bff; box-shadow: 0px 4px 15px rgba(0,0,0,0.2);">
-  <h1>Aisa Kadyrova</h1>
+  <h1>Aknabat Kadyrova Kadyrgulyyevna</h1>
   <p style="font-size: 1.2em; color: #555;">
     <b>Engineer | Educator | AI Visionary</b>
   </p>
