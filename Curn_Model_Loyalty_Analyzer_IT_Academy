@@ -1,0 +1,121 @@
+import telebot
+import pandas as pd
+import numpy as np
+import joblib
+import threading
+from telebot import types
+from sklearn.linear_model import LogisticRegression
+from datetime import datetime
+
+# ========================================================
+# 1. ПОДГОТОВКА МОДЕЛИ (для первого бота)
+# ========================================================
+data = {
+    'стаж_месяцев': np.random.randint(1, 72, 500),
+    'ежемесячный_платеж': np.random.randint(20, 150, 500),
+    'тех_поддержка': np.random.randint(0, 2, 500),
+    'ушел': np.random.randint(0, 2, 500)
+}
+df_ml = pd.DataFrame(data)
+model_ml = LogisticRegression()
+model_ml.fit(df_ml[['стаж_месяцев', 'ежемесячный_платеж', 'тех_поддержка']], df_ml['ушел'])
+joblib.dump(model_ml, 'churn_model.pkl')
+
+# ========================================================
+# 2. НАСТРОЙКА БОТОВ (Вставьте ваши токены!)
+# ========================================================
+TOKEN_ANALYZER 'TOKEN_ID_1'
+TOKEN_ACADEMY 'TOKEN_ID_2'
+
+bot_analyst = telebot.TeleBot(TOKEN_ANALYZER)
+bot_academy = telebot.TeleBot(TOKEN_ACADEMY)
+
+# Общие переменные
+user_states = {}
+stats = {"total": 0, "risks": 0}
+
+# ========================================================
+# 3. ЛОГИКА БОТА-АНАЛИЗАТОРА (Jasmin Loyalty)
+# ========================================================
+@bot_analyst.message_handler(commands=['start'])
+def start_analyst(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🚀 Сделать прогноз", "📊 Статистика")
+    bot_analyst.send_message(message.chat.id, "🤖 Привет! Я анализатор оттока.", reply_markup=markup)
+
+@bot_analyst.message_handler(func=lambda m: m.text == "📊 Статистика")
+def show_stats(message):
+    bot_analyst.send_message(message.chat.id, f"📈 Всего прогнозов: {stats['total']}\nВыявлено рисков: {stats['risks']}")
+
+@bot_analyst.message_handler(func=lambda m: m.text == "🚀 Сделать прогноз")
+def step1(message):
+    msg = bot_analyst.send_message(message.chat.id, "1️⃣ Введите стаж (мес):")
+    bot_analyst.register_next_step_handler(msg, step2)
+
+def step2(message):
+    user_states[message.chat.id] = {'tenure': int(message.text)}
+    msg = bot_analyst.send_message(message.chat.id, "2️⃣ Введите платеж ($):")
+    bot_analyst.register_next_step_handler(msg, step3)
+
+def step3(message):
+    user_states[message.chat.id]['payment'] = float(message.text)
+    msg = bot_analyst.send_message(message.chat.id, "3️⃣ Техподдержка (1-да, 0-нет):")
+    bot_analyst.register_next_step_handler(msg, final_analyst)
+
+def final_analyst(message):
+    try:
+        data = user_states[message.chat.id]
+        input_df = pd.DataFrame([[data['tenure'], data['payment'], int(message.text)]],
+                                columns=['стаж_месяцев', 'ежемесячный_платеж', 'тех_поддержка'])
+        prob = joblib.load('churn_model.pkl').predict_proba(input_df)[0][1] * 100
+        stats["total"] += 1
+        res = "⚠️ Риск оттока!" if prob > 50 else "✅ Клиент лоялен."
+        if prob > 50: stats["risks"] += 1
+        bot_analyst.send_message(message.chat.id, f"{res}\nВероятность: {prob:.1f}%")
+    except: bot_analyst.send_message(message.chat.id, "Ошибка в данных.")
+
+# ========================================================
+# 4. ЛОГИКА БОТА-АКАДЕМИИ (Jasmin Edu Academy)
+# ========================================================
+courses = {
+    "it": "IT technology & QA", "dev": "Java/JS/Fullstack",
+    "ai": "Machine learning & AI", "sec": "Cybersecurity & DevOps"
+}
+
+@bot_academy.message_handler(commands=['start'])
+def start_academy(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🎓 Подготовка к ВУЗам", "💻 IT Курсы", "🔥 СКИДКА")
+    bot_academy.send_message(message.chat.id, "🌟 Добро пожаловать в Jasmine IT Academy!", reply_markup=markup)
+
+@bot_academy.message_handler(func=lambda m: m.text == "💻 IT Курсы")
+def show_courses(message):
+    markup = types.InlineKeyboardMarkup()
+    for k, v in courses.items():
+        markup.add(types.InlineKeyboardButton(v, callback_data=f"c_{k}"))
+    bot_academy.send_message(message.chat.id, "Выберите курс:", reply_markup=markup)
+
+@bot_academy.message_handler(func=lambda m: m.text == "🔥 СКИДКА")
+def discount(message):
+    text = "🎁 СКИДКА! Осталось 5 мест. Старт 1 июня!\nТоропитесь записаться!"
+    bot_academy.send_message(message.chat.id, text)
+
+# ========================================================
+# 5. ЗАПУСК ОБОИХ БОТОВ ОДНОВРЕМЕННО
+# ========================================================
+def run_analyst():
+    print("Бот-анализатор запущен...")
+    bot_analyst.polling(none_stop=True, interval=0)
+
+def run_academy():
+    print("Бот-академия запущен...")
+    bot_academy.polling(none_stop=True, interval=0)
+
+if __name__ == "__main__":
+    # Создаем два потока
+    t1 = threading.Thread(target=run_analyst)
+    t2 = threading.Thread(target=run_academy)
+
+    # Запускаем потоки
+    t1.start()
+    t2.start()
