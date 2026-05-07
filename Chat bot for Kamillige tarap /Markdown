@@ -1,20 +1,31 @@
-## Об авторе
-Проект разработан в рамках образовательной программы **Jasmin Online IT Academy и Kamillige tarap**. 
-Основатель и ведущий разработчик: **Aknabat Kadyrova**.
 
-Мы обучаем: Kamillige tarap Shageldi Yabanov
-- English language
-- Russian language
-- Jasmin_IT_Academy
-- Full-stack Developer (React, Node.js)
-- Machine Learning and AI
-- QA manual
-- QA automation
-- mobile testing (Flutter)
-- ios developer
-- UI&UX dizayner
-- Java developer
-- Javascript Developer
-- FinOps 
-- DevOps
-- Cybersecuirity
+# AI Chat Module (Gemini Pro) for KämilligeTarap
+
+Данный модуль представляет собой независимый микросервис для интеграции ИИ-чата в мобильное приложение (Flutter). Сервис использует Google Gemini 1.5 Flash для обработки запросов.
+
+## 🚀 Технологический стек
+* **Backend:** Go (Golang) 1.22+
+* **AI Model:** Google Gemini API
+* **API Framework:** Gin Gonic
+* **Containerization:** Docker
+
+## 🛠 Функционал
+- Поддержка контекста (истории сообщений).
+- Системная инструкция (настроена на роль ассистента KämilligeTarap).
+- Мультиязычность (Туркменский, Русский, Английский).
+- Оптимизированный JSON-обмен с фронтендом.
+
+## 📦 Быстрый запуск (Backend)
+
+### Локально:
+1. Создайте файл `.env` и добавьте свой ключ:
+   `GEMINI_API_KEY=your_api_key_here`
+2. Загрузите зависимости:
+   `go mod download`
+3. Запустите сервер:
+   `go run main.go`
+
+### Через Docker (рекомендуется):
+```bash
+docker build -t ai-chat-service .
+docker run -p 8080:8080 --env GEMINI_API_KEY=ваш_ключ ai-chat-service
