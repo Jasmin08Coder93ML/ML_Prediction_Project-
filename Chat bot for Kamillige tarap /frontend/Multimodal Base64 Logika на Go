@@ -1,0 +1,11 @@
+// В структуре ChatMessage на Go
+type ChatMessage struct {
+    Role  string `json:"role"`
+    Parts string `json:"parts"`      // Текст или Base64 картинки
+    Type  string `json:"type"`       // "text" или "image"
+}
+
+// В обработчике, если Type == "image":
+data, _ := base64.StdEncoding.DecodeString(msg.Parts)
+imgPart := genai.ImageData("jpeg", data)
+res, err := model.GenerateContent(ctx, imgPart, genai.Text("Что на этом фото?"))
