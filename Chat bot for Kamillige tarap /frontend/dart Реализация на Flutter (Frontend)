@@ -1,0 +1,16 @@
+List<Map<String, String>> history = [];
+
+void sendMessage(String text) async {
+  setState(() {
+    history.add({"role": "user", "parts": text});
+  });
+
+  final response = await dio.post(
+    'https://your-backend.com/chat',
+    data: {"history": history},
+  );
+
+  setState(() {
+    history.add({"role": "model", "parts": response.data['reply']});
+  });
+}
