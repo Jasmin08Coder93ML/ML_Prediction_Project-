@@ -1,0 +1,6 @@
+func (l *Logger) GenerateReport() {
+	fmt.Println("--- Şageldi Mugallym üçin Hasabat ---")
+	// CSV faýlyny oka we analiz et
+	// Mysal üçin: Eger okuwçy 3 günden bäri girmedik bolsa ýa-da bahasy 50-den pes bolsa
+	// Python-daky Churn modelimize şu maglumatlary ugradarys.
+}
