@@ -1,0 +1,15 @@
+func main() {
+    l := NewLogger("data/student_logs.csv")
+
+    http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == http.MethodPost {
+            // Bu ýerde Flutter-den gelen maglumaty alarys
+            // log := StudentLog{...}
+            // l.LogAction(log)
+            fmt.Fprintf(w, "Log kabul edildi!")
+        }
+    })
+
+    fmt.Println("Logger Service 8081 portunda işleýär...")
+    http.ListenAndServe(":8081", nil)
+}
