@@ -2,6 +2,12 @@ package logger
 
 import (
     "fmt"
+    "time"
+    // Bu ýoly öz GitHub adyňa görä düzet:
+    logger "github.com/Jasmin08Coder93ML/ML_Prediction_Project/vnutrenniy/lesorub" 
+)
+import (
+    "fmt"
     // ... başga paketleriň ...
     "github.com/Jasmin08Coder93ML/ML_Prediction_Project/vnutrenniy/logger" // Seniň loggeriň ýoly
 )
@@ -43,7 +49,26 @@ err := myLogger.LogAction(logger.StudentLog{
 if err != nil {
     fmt.Println("Log ýazylanda ýalňyşlyk:", err)
 }
+func main() {
+    // 1. Loggeri başladýarys (faýlyň adyny görkezýäris)
+    appLogger := logger.NewLogger("student_activity.csv")
 
+    // 2. Synag hökmünde maglumat ýazýarys
+    err := appLogger.LogAction(logger.StudentLog{
+        StudentID: "Jasmin_001",
+        Action:    "login_success",
+        Score:     100,
+        Duration:  0,
+        Timestamp: time.Now(),
+    })
+
+    if err != nil {
+        fmt.Println("Ýalňyşlyk ýüze çykdy:", err)
+        return
+    }
+
+    fmt.Println("Logger üstünlikli işledi we maglumat ýazyldy!")
+}
 func NewLogger(path string) *Logger {
 	return &Logger{FilePath: path}
 }
