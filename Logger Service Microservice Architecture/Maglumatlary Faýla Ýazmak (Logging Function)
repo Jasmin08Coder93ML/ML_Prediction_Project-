@@ -1,0 +1,21 @@
+func (l *Logger) LogAction(log StudentLog) error {
+	file, err := os.OpenFile(l.FilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	// Maglumatlary setir görnüşine öwürýäris
+	row := []string{
+		log.StudentID,
+		log.Action,
+		strconv.Itoa(log.Score),
+		strconv.Itoa(log.Duration),
+		log.Timestamp.Format(time.RFC3339),
+	}
+
+	return writer.Write(row)
+}
