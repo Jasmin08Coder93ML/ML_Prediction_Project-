@@ -107,3 +107,22 @@ func (l *Logger) LogAction(log StudentLog) error {
 
 	return writer.Write(row)
 }
+// 1. Okuwçy ses ugradanda (STT bölümi)
+sttText := "Matematika boýunça kömek gerek" // Bu Whisper-den gelýän tekst bolar
+err := appLogger.LogAction(logger.StudentLog{
+    StudentID: "Jasmin_001",
+    Action:    "stt_converted", // Hereketiň ady
+    Score:     0,               // Bu ýerde bal gerek däl
+    Duration:  5,               // Ses ýazgysynyň dowamlylygy (sekunt)
+    Timestamp: time.Now(),
+})
+
+// 2. Bot jogap berende (LLM bölümi)
+botResponse := "Elbetde, haýsy mesele bilen kömek edip bilerin?"
+err = appLogger.LogAction(logger.StudentLog{
+    StudentID: "Jasmin_001",
+    Action:    "bot_replied", // Botuň jogap berenini bellik edýäris
+    Score:     100,           // Meselem, jogabyň hili hökmünde
+    Duration:  2,             // Botuň oýlanan wagty
+    Timestamp: time.Now(),
+})
