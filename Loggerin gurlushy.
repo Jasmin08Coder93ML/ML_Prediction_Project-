@@ -1,0 +1,27 @@
+package main
+
+import (
+	"encoding/csv"
+	"fmt"
+	"os"
+	"strconv"
+	"time"
+)
+
+// Okuwçy hereketiniň maglumaty
+type StudentLog struct {
+	StudentID   string
+	Action      string    // "login", "test_start", "test_end", "help_request"
+	Score       int       // Eger test bolsa baha
+	Duration    int       // Sarp edilen wagt (sekuntda)
+	Timestamp   time.Time
+}
+
+// Loger ulgamy
+type Logger struct {
+	FilePath string
+}
+
+func NewLogger(path string) *Logger {
+	return &Logger{FilePath: path}
+}
