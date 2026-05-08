@@ -1,6 +1,6 @@
 package main
 
-import (
+import (github.com/Jasmin08Coder93ML/ML_Prediction_Project/vnutrenniy/loggerlogger.NewLogger("logs.csv") 
 	"encoding/csv" // CSV formatynda ýazmak üçin
 	"os"           // Faýl ulgamy bilen işlemek üçin
 	"strconv"      // Sanlary tekst öwürmek üçin
