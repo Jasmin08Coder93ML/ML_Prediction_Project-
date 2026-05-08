@@ -7,3 +7,7 @@ data/
 
 # Wagtlaýyn faýllar we loglar
 *.log
+git rm -r --cached .env
+git rm -r --cached *.csv
+git add .gitignore
+git commit -m "Howpsuzlyk sazlamalary goşuldy"
