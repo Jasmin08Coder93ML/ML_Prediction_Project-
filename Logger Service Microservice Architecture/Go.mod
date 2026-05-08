@@ -1,0 +1,3 @@
+module github.com/Jasmin08Coder93ML/ML_Prediction_Project
+
+go 1.21
