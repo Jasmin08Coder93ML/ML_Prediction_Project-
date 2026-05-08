@@ -1,0 +1,9 @@
+# Howpsuzlyk: Gizlin sazlamalar we API açarlar
+.env
+
+# Maglumatlar: Okuwçy işjeňligi we CSV faýllary
+*.csv
+data/
+
+# Wagtlaýyn faýllar we loglar
+*.log
