@@ -1,8 +1,0 @@
-{
-  "session_id": 1,
-  "message": {
-    "role": "user",
-    "content": "base64_string_or_text",
-    "msg_type": "text" 
-  }
-}

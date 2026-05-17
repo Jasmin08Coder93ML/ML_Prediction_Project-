@@ -1,6 +1,0 @@
-// Пример инициализации модели
-client, err := genai.NewClient(ctx, option.WithAPIKey("YOUR_API_KEY"))
-model := client.GenerativeModel("gemini-1.5-flash")
-
-// Отправка сообщения
-res, err := model.GenerateContent(ctx, genai.Text("Salam, gowmy yagdaylarynyz?"))
