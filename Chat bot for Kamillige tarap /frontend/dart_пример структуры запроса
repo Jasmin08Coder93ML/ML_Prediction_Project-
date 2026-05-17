@@ -1,4 +1,0 @@
-final response = await dio.post(
-  'https://your-go-backend-url.com/chat',
-  data: {'message': userText},
-);
